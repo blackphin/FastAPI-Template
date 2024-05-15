@@ -1,0 +1,10 @@
+# Virtual Environments
+.venv
+venv
+
+# Environment Variables
+.env
+
+# Temp/Internal Files
+__pycache__
+test.py
