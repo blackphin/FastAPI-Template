@@ -24,10 +24,9 @@ class Users(Base):
 
     # Personal Details
 
-    emp_no = Column(String, nullable=False, primary_key=True)
+    user_id = Column(String, nullable=False, primary_key=True)
     name = Column(String, nullable=False)
     email = Column(String, nullable=False)
-    dept = Column(String, ForeignKey("departments.dept_name"), nullable=False)
 
-    # Scope Details
+    # Role Scope
     scopes = Column(ARRAY(String), nullable=False, server_default="{user}")

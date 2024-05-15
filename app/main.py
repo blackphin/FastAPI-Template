@@ -10,7 +10,7 @@ from slowapi.util import get_remote_address
 from starlette.middleware.sessions import SessionMiddleware
 
 # Database Imports
-from database.tables import table_users, table_meetings, table_meeting_speaker, table_languages, table_voice_samples, table_blacklist_tokens, table_department
+from database.tables import table_users
 from database.database import engine
 
 # Routers Import
@@ -22,7 +22,7 @@ from config import settings
 
 # FastAPI app Init
 app = FastAPI(
-    title="Meeting Minutes Backend",
+    title="Template FastAPI Backend",
     version="0.1.0",
     openapi_url="/api/openapi.json",
     docs_url="/api/docs",
@@ -61,15 +61,10 @@ app.include_router(routers.router)
 
 # Create Tables
 table_users.Base.metadata.create_all(bind=engine)
-table_meetings.Base.metadata.create_all(bind=engine)
-table_meeting_speaker.Base.metadata.create_all(bind=engine)
-table_languages.Base.metadata.create_all(bind=engine)
-table_voice_samples.Base.metadata.create_all(bind=engine)
-table_blacklist_tokens.Base.metadata.create_all(bind=engine)
-table_department.Base.metadata.create_all(bind=engine)
-
 
 # Backend Healthcheck Route
+
+
 @app.get("/api/healthcheck", status_code=status.HTTP_200_OK)
 def current_status():
     return {"status": "Backend Server Active"}
