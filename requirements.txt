@@ -1,0 +1,6 @@
+fastapi[all]
+sqlalchemy
+psycopg2-binary
+authlib
+slowapi
+python-jose
