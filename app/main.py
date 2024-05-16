@@ -10,7 +10,7 @@ from slowapi.util import get_remote_address
 from starlette.middleware.sessions import SessionMiddleware
 
 # Database Imports
-from database.tables import table_users
+from database.tables import table_users, table_blacklist_tokens
 from database.database import engine
 
 # Routers Import
@@ -61,6 +61,8 @@ app.include_router(routers.router)
 
 # Create Tables
 table_users.Base.metadata.create_all(bind=engine)
+table_blacklist_tokens.Base.metadata.create_all(bind=engine)
+
 
 # Backend Healthcheck Route
 

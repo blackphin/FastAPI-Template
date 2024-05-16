@@ -74,7 +74,7 @@ async def jwt(request: Request, scope: str):
         )
 
     access_token = create_access_token(
-        data={"emp_no": user_details.emp_no, "scopes": [scope]}
+        data={"user_id": user_details.user_id, "scopes": [scope]}
     )
 
     return {"access_token": access_token, "token_type": "bearer", "scopes": [scope]}
@@ -110,13 +110,13 @@ async def create_user(user_details: schemas.CreateUser, request: Request, db: Se
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="User already exists")
 
-    new_user = Users(emp_no=user_details.emp_no, name=user_details.name, email=user_email,
+    new_user = Users(emp_no=user_details.user_id, name=user_details.name, email=user_email,
                      dept=user_details.dept)
     db.add(new_user)
     db.commit()
 
     access_token = create_access_token(
-        data={"emp_no": user_details.emp_no, "scopes": ['user']}
+        data={"emp_no": user_details.user_id, "scopes": ['user']}
     )
 
     return {"status": "User created successfully", "access_token": access_token, "token_type": "bearer", "scopes": ['user']}

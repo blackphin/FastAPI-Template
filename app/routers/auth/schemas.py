@@ -8,13 +8,13 @@ from pydantic import BaseModel, EmailStr
 
 class TokenData(BaseModel):
     token: str
-    emp_no: str
+    user_id: str
     scopes: List[str] = []
     exp: datetime
 
 
 class CreateUser(BaseModel):
-    emp_no: str
+    user_id: str
     name: str
     dept: str
 

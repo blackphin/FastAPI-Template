@@ -25,7 +25,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl='login')
 def verify_user(user_email: EmailStr, scope: str):
     db = database.SessionLocal()
 
-    user_details = db.query(Users.status, Users.emp_no, Users.scopes).filter(
+    user_details = db.query(Users.status, Users.user_id, Users.scopes).filter(
         Users.email == user_email).first()
 
     if user_details is None:
@@ -89,7 +89,7 @@ def verify_access_token(security_scopes: SecurityScopes, token: str = Depends(oa
         # Token Data
         token_data = schemas.TokenData(
             token=token,
-            emp_no=payload.get("emp_no"),
+            user_id=payload.get("user_id"),
             scopes=payload.get("scopes", []),
             exp=payload.get("exp")
         )
@@ -107,7 +107,7 @@ def verify_access_token(security_scopes: SecurityScopes, token: str = Depends(oa
                                 headers={"WWW-Authenticate": authenticate_value},)
 
     # Verify User from DB
-    user = db.query(Users).filter(Users.emp_no == token_data.emp_no).first()
+    user = db.query(Users).filter(Users.user_id == token_data.user_id).first()
     if user is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="User not found", headers={"WWW-Authenticate": "Bearer"}
@@ -119,4 +119,4 @@ def verify_access_token(security_scopes: SecurityScopes, token: str = Depends(oa
 
 
 def get_current_user(security_scopes: SecurityScopes, token: str = Depends(oauth2_scheme)):
-    return verify_access_token(security_scopes, token).emp_no
+    return verify_access_token(security_scopes, token).user_id
