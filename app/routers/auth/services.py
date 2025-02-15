@@ -11,13 +11,13 @@ from jose import JWTError, jwt
 from pydantic import EmailStr
 
 # Database Imports
-from database import database
-from database.tables.table_blacklist_tokens import BlacklistTokens
-from database.tables.table_users import Users
+from app.database import database
+from app.database.tables.table_blacklist_tokens import BlacklistTokens
+from app.database.tables.table_users import Users
 
 # Auth Services
-from . import schemas
-from config import settings
+from app.routers.auth import schemas
+from app.config import settings
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='login')
 

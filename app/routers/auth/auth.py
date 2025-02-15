@@ -10,14 +10,14 @@ from starlette.config import Config
 
 # Database Imports
 from sqlalchemy.orm import Session
-from database.database import get_db
-from database.tables.table_users import Users
-from database.tables.table_blacklist_tokens import BlacklistTokens
+from app.database.database import get_db
+from app.database.tables.table_users import Users
+from app.database.tables.table_blacklist_tokens import BlacklistTokens
 
 # Auth Services
-from . import schemas
-from config import settings
-from routers.auth.services import create_access_token, verify_access_token, verify_user
+from app.routers.auth import schemas
+from app.config import settings
+from app.routers.auth.services import create_access_token, verify_access_token, verify_user
 
 router = APIRouter(tags=['Authentication'], prefix='/auth')
 

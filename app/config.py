@@ -2,6 +2,10 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
+    # Dev Settings
+    environment: str
+    https: bool
+
     # Database Credentials
     database_username: str
     database_password: str

@@ -8,6 +8,7 @@ from slowapi.errors import RateLimitExceeded
 from slowapi.middleware import SlowAPIMiddleware
 from slowapi.util import get_remote_address
 from starlette.middleware.sessions import SessionMiddleware
+from starlette.middleware.httpsredirect import HTTPSRedirectMiddleware
 
 # Database Imports
 from database.tables import table_users, table_blacklist_tokens
@@ -23,10 +24,10 @@ from config import settings
 # FastAPI app Init
 app = FastAPI(
     title="Template FastAPI Backend",
-    version="0.1.0",
-    openapi_url="/api/openapi.json",
-    docs_url="/api/docs",
-    redoc_url="/api/redoc",
+    version=settings.environment,
+    openapi_url=f"/api/{settings.environment}/openapi.json",
+    docs_url=f"/api/{settings.environment}/docs",
+    redoc_url=f"/api/{settings.environment}/redoc",
 )
 
 
@@ -44,7 +45,8 @@ app.add_middleware(
 )
 
 # HTTPS Redirect
-# app.add_middleware(HTTPSRedirectMiddleware)
+if settings.https:
+    app.add_middleware(HTTPSRedirectMiddleware)
 
 # Session Middleware
 app.add_middleware(SessionMiddleware, secret_key=settings.secret_key)
@@ -67,6 +69,6 @@ table_blacklist_tokens.Base.metadata.create_all(bind=engine)
 # Backend Healthcheck Route
 
 
-@app.get("/api/healthcheck", status_code=status.HTTP_200_OK)
+@app.get("/api/{settings.environment}/healthcheck", status_code=status.HTTP_200_OK)
 def current_status():
     return {"status": "Backend Server Active"}
