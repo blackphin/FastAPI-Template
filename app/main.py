@@ -11,14 +11,14 @@ from starlette.middleware.sessions import SessionMiddleware
 from starlette.middleware.httpsredirect import HTTPSRedirectMiddleware
 
 # Database Imports
-from database.tables import table_users, table_blacklist_tokens
-from database.database import engine
+from app.database.tables import table_users, table_blacklist_tokens
+from app.database.database import engine
 
 # Routers Import
-from routers import routers
+from app.routers import routers
 
 # ENV Variables
-from config import settings
+from app.config import settings
 
 
 # FastAPI app Init
