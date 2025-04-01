@@ -1,0 +1,29 @@
+name: project
+on:
+  push:
+    branches:
+      - "main"
+  pull_request:
+    types:
+      - closed
+    branches:
+      - "main"
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: prod
+
+    steps:
+      - name: Login and Deploy on EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.AWS_HOST }}
+          username: ${{ secrets.AWS_USER }}
+          key: ${{ secrets.AWS_KEY}}
+          port: ${{ secrets.AWS_PORT }}
+          script: |
+            cd ~/project
+            source activate.sh
+            source run.sh
